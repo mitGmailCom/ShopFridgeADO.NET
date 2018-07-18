@@ -46,7 +46,6 @@ namespace ShopFridgeADO.NET
         }
 
 
-
         private void Form1_Load(object sender, EventArgs e)
         {
             connectionString = ConfigurationManager.ConnectionStrings["ConnectionShopFriedges"].ConnectionString;
