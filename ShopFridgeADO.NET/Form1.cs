@@ -20,12 +20,7 @@ namespace ShopFridgeADO.NET
         private string NameBuyer { get; set; } = null;
         private string Product { get; set; } = null;
         private string CountProduct { get; set; } = null;
-        List<int> Receipt = new List<int>();
-        List<int> Saled = new List<int>();
-        List<int> Buyed = new List<int>();
         List<List<string>> ListCreatingTable = new List<List<string>>();
-        //private string[] tempMas = new string[6];
-        //private List<string> tempMas = new List<string>();
 
         private string connectionString = null;
         private SqlConnection conn = null;
@@ -39,7 +34,6 @@ namespace ShopFridgeADO.NET
         private DataTable dtSales;
         private DataTable CreatingTable;
 
-
         private string partQuerySales = @"insert into Sales(IdProduct, NumberCheck, DateSale, NameSaller, NameBuyer, CountPurchase) values (@idprod, @numbch, @date, @names, @nameb, @count)";
         private string partQueryProductBalanceSaller = @"insert into ProductBalance(IdProduct, Balance, DateProductBalance) values (@idprodbs, @cols, @dates)";
         private string partQueryProductBalanceCustomer = @"insert into ProductBalanceCustomers(IdProduct, BalanceCustomers, DateBalanceCustomers) values (@idprodbc, @colc, @datec)";
@@ -50,6 +44,8 @@ namespace ShopFridgeADO.NET
             InitializeComponent();
             Load += Form1_Load;
         }
+
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -66,6 +62,7 @@ namespace ShopFridgeADO.NET
             CreatingTable.Columns.Add("Count");
         }
 
+
         // Загрузка данных в DataSet
         private void btnLoadData_Click(object sender, EventArgs e)
         {
@@ -73,7 +70,6 @@ namespace ShopFridgeADO.NET
             // проверка на наличие записей в таблице продажи, если есть взять последнее значение,private string NameBuyer { get; set; } если нет присвоить 1
             try
             {
-                //SqlConnection conn = new SqlConnection(connectionString);
                 dataset = new DataSet();
                 sql = "select * from Product; select IdProduct, sum(CountProduct) as 'CountReceipt' from ProductReceipt group by IdProduct; select IdProduct, sum(CountPurchase) as CountPurchase, NumberCheck from Sales group by IdProduct, NumberCheck; select IdProduct, sum(Balance) as CountSaller from ProductBalance group by IdProduct; select IdProduct, sum(BalanceCustomers) as CountCustomer from ProductBalanceCustomers group by IdProduct";
                 dAdapter = new SqlDataAdapter(sql, conn);
@@ -110,39 +106,17 @@ namespace ShopFridgeADO.NET
 
 
 
-        private void btnShowProducts_Click(object sender, EventArgs e)
-        {
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = dataset.Tables[0];
-        }
-
-
-
-        private void btnShowReceipt_Click(object sender, EventArgs e)
-        {
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = dataset.Tables[1];
-        }
-
-
-
         private void btnLoadToDB_Click(object sender, EventArgs e)
         {
-            bool flagRollback = false;
             conn = new SqlConnection(connectionString);
             SqlCommand comm = conn.CreateCommand();
             SqlTransaction tran = null;
             try
             {
                 conn.Open();
-                //tran = conn.BeginTransaction();
-                ////comm = conn.CreateCommand();
-                //comm.Transaction = tran;
-
                 for (int i = 0; i < ListCreatingTable.Count; i++)
                 {
                     tran = conn.BeginTransaction();
-                    //comm = conn.CreateCommand();
                     comm.Transaction = tran;
 
                     comm.CommandText = partQuerySales;
@@ -194,7 +168,6 @@ namespace ShopFridgeADO.NET
                     comm.Parameters.Clear();
                     tran.Commit();
                 }
-                //tran.Commit();
                 CreatingTable.Clear();
                 CreatingTable = null;
             }
@@ -204,11 +177,12 @@ namespace ShopFridgeADO.NET
                 tran.Rollback();
                 CreatingTable.Clear();
                 CreatingTable = null;
+                btnCheck.Enabled = false;
             }
             finally
             {
-                //CreatingTable.Clear();
                 CreatingTable = null;
+                btnCheck.Enabled = false;
                 conn.Close();
             }
         }
@@ -228,7 +202,7 @@ namespace ShopFridgeADO.NET
                 if (CreatingTable.Rows.Count == 0)
                 {
                     int res = 0;
-                    bool isInt = Int32.TryParse(dtSales.Rows[dtSales.Rows.Count - 1][1].ToString(), out res);
+                    bool isInt = Int32.TryParse(dtSales.Rows[dtSales.Rows.Count - 1][2].ToString(), out res);
                     if (isInt)
                         NumberCheck = res + 1;
                 }
@@ -248,24 +222,6 @@ namespace ShopFridgeADO.NET
             tempMas.Add(NameBuyer);
             tempMas.Add(CountProduct);
 
-            //StringBuilder strB = new StringBuilder();
-            //strB.Append(Product);
-            //tempMas[0] = strB.ToString();
-            //strB.Clear();
-            //strB.Append(NumberCheck.ToString());
-            //tempMas[1] = strB.ToString();
-            //strB.Clear();
-            //strB.Append(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt"));
-            //tempMas[2] = strB.ToString();
-            //strB.Clear();
-            //strB.Append(NameSaller);
-            //tempMas[3] = strB.ToString();
-            //strB.Clear();
-            //strB.Append(NameBuyer);
-            //tempMas[4] = strB.ToString();
-            //strB.Clear();
-            //strB.Append(CountProduct);
-            //tempMas[5] = strB.ToString();
             ListCreatingTable.Add(tempMas);
             
             DataRow newdrow = CreatingTable.NewRow();
@@ -277,24 +233,65 @@ namespace ShopFridgeADO.NET
             newdrow[5] = CountProduct;
             CreatingTable.Rows.Add(newdrow);
             dataGridView1.DataSource = CreatingTable;
+            btnCheck.Enabled = true;
+        }
+
+
+
+        private void btnShowProducts_Click(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = null;
+            if (dataset.Tables[0].Rows.Count != 0)
+                dataGridView1.DataSource = dataset.Tables[0];
+        }
+
+        private void btnShowReceipt_Click(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = null;
+            if (dataset.Tables[1].Rows.Count != 0)
+                dataGridView1.DataSource = dataset.Tables[1];
         }
 
         private void btnShowSales_Click(object sender, EventArgs e)
         {
             dataGridView1.DataSource = null;
-            dataGridView1.DataSource = dataset.Tables[2];
+            if (dataset.Tables[2].Rows.Count != 0)
+                dataGridView1.DataSource = dataset.Tables[2];
         }
 
         private void btnShowBSaller_Click(object sender, EventArgs e)
         {
             dataGridView1.DataSource = null;
-            dataGridView1.DataSource = dataset.Tables[3];
+            if (dataset.Tables[3].Rows.Count != 0)
+                dataGridView1.DataSource = dataset.Tables[3];
         }
 
         private void btnShowBCustomer_Click(object sender, EventArgs e)
         {
             dataGridView1.DataSource = null;
-            dataGridView1.DataSource = dataset.Tables[4];
+            if (dataset.Tables[4].Rows.Count != 0)
+                dataGridView1.DataSource = dataset.Tables[4];
+        }
+
+        private void btnCheck_Click(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = null;
+            if (CreatingTable.Rows.Count != 0)
+                dataGridView1.DataSource = CreatingTable;
+        }
+
+        private void btnClearCheck_Click(object sender, EventArgs e)
+        {
+            if (CreatingTable != null)
+            {
+                if(CreatingTable.Rows.Count > 0)
+                    CreatingTable.Clear();
+            }
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            btnLoadData.PerformClick();
         }
     }
 }

@@ -46,6 +46,9 @@
             this.btnLoadData = new System.Windows.Forms.Button();
             this.btnShowBSaller = new System.Windows.Forms.Button();
             this.btnShowBCustomer = new System.Windows.Forms.Button();
+            this.btnClearCheck = new System.Windows.Forms.Button();
+            this.btnCheck = new System.Windows.Forms.Button();
+            this.btnUpdate = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -130,7 +133,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(249, 12);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(468, 258);
+            this.dataGridView1.Size = new System.Drawing.Size(397, 262);
             this.dataGridView1.TabIndex = 10;
             // 
             // btnLoadToDB
@@ -145,31 +148,31 @@
             // 
             // btnShowProducts
             // 
-            this.btnShowProducts.Location = new System.Drawing.Point(249, 288);
+            this.btnShowProducts.Location = new System.Drawing.Point(652, 12);
             this.btnShowProducts.Name = "btnShowProducts";
-            this.btnShowProducts.Size = new System.Drawing.Size(95, 31);
+            this.btnShowProducts.Size = new System.Drawing.Size(67, 45);
             this.btnShowProducts.TabIndex = 17;
-            this.btnShowProducts.Text = "Show Products";
+            this.btnShowProducts.Text = "Products";
             this.btnShowProducts.UseVisualStyleBackColor = true;
             this.btnShowProducts.Click += new System.EventHandler(this.btnShowProducts_Click);
             // 
             // btnShowReceipt
             // 
-            this.btnShowReceipt.Location = new System.Drawing.Point(350, 288);
+            this.btnShowReceipt.Location = new System.Drawing.Point(652, 65);
             this.btnShowReceipt.Name = "btnShowReceipt";
-            this.btnShowReceipt.Size = new System.Drawing.Size(92, 31);
+            this.btnShowReceipt.Size = new System.Drawing.Size(67, 45);
             this.btnShowReceipt.TabIndex = 18;
-            this.btnShowReceipt.Text = "ShowReseipt";
+            this.btnShowReceipt.Text = "Reseipt";
             this.btnShowReceipt.UseVisualStyleBackColor = true;
             this.btnShowReceipt.Click += new System.EventHandler(this.btnShowReceipt_Click);
             // 
             // btnShowSales
             // 
-            this.btnShowSales.Location = new System.Drawing.Point(448, 288);
+            this.btnShowSales.Location = new System.Drawing.Point(652, 119);
             this.btnShowSales.Name = "btnShowSales";
-            this.btnShowSales.Size = new System.Drawing.Size(81, 31);
+            this.btnShowSales.Size = new System.Drawing.Size(67, 45);
             this.btnShowSales.TabIndex = 19;
-            this.btnShowSales.Text = "Show Sales";
+            this.btnShowSales.Text = "Sales";
             this.btnShowSales.UseVisualStyleBackColor = true;
             this.btnShowSales.Click += new System.EventHandler(this.btnShowSales_Click);
             // 
@@ -196,7 +199,7 @@
             // 
             this.btnLoadData.Location = new System.Drawing.Point(11, 12);
             this.btnLoadData.Name = "btnLoadData";
-            this.btnLoadData.Size = new System.Drawing.Size(224, 23);
+            this.btnLoadData.Size = new System.Drawing.Size(113, 23);
             this.btnLoadData.TabIndex = 22;
             this.btnLoadData.Text = "Connect to DB";
             this.btnLoadData.UseVisualStyleBackColor = true;
@@ -204,29 +207,63 @@
             // 
             // btnShowBSaller
             // 
-            this.btnShowBSaller.Location = new System.Drawing.Point(535, 288);
+            this.btnShowBSaller.Location = new System.Drawing.Point(652, 174);
             this.btnShowBSaller.Name = "btnShowBSaller";
-            this.btnShowBSaller.Size = new System.Drawing.Size(87, 31);
+            this.btnShowBSaller.Size = new System.Drawing.Size(67, 45);
             this.btnShowBSaller.TabIndex = 23;
-            this.btnShowBSaller.Text = "ShowSaller";
+            this.btnShowBSaller.Text = "Balance Saller";
             this.btnShowBSaller.UseVisualStyleBackColor = true;
             this.btnShowBSaller.Click += new System.EventHandler(this.btnShowBSaller_Click);
             // 
             // btnShowBCustomer
             // 
-            this.btnShowBCustomer.Location = new System.Drawing.Point(628, 288);
+            this.btnShowBCustomer.Location = new System.Drawing.Point(652, 229);
             this.btnShowBCustomer.Name = "btnShowBCustomer";
-            this.btnShowBCustomer.Size = new System.Drawing.Size(87, 31);
+            this.btnShowBCustomer.Size = new System.Drawing.Size(67, 45);
             this.btnShowBCustomer.TabIndex = 24;
-            this.btnShowBCustomer.Text = "ShowCustomer";
+            this.btnShowBCustomer.Text = "Balance Customer";
             this.btnShowBCustomer.UseVisualStyleBackColor = true;
             this.btnShowBCustomer.Click += new System.EventHandler(this.btnShowBCustomer_Click);
+            // 
+            // btnClearCheck
+            // 
+            this.btnClearCheck.Location = new System.Drawing.Point(485, 288);
+            this.btnClearCheck.Name = "btnClearCheck";
+            this.btnClearCheck.Size = new System.Drawing.Size(232, 31);
+            this.btnClearCheck.TabIndex = 26;
+            this.btnClearCheck.Text = "Clear Check";
+            this.btnClearCheck.UseVisualStyleBackColor = true;
+            this.btnClearCheck.Click += new System.EventHandler(this.btnClearCheck_Click);
+            // 
+            // btnCheck
+            // 
+            this.btnCheck.Enabled = false;
+            this.btnCheck.Location = new System.Drawing.Point(249, 288);
+            this.btnCheck.Name = "btnCheck";
+            this.btnCheck.Size = new System.Drawing.Size(232, 31);
+            this.btnCheck.TabIndex = 27;
+            this.btnCheck.Text = "Check";
+            this.btnCheck.UseVisualStyleBackColor = true;
+            this.btnCheck.Click += new System.EventHandler(this.btnCheck_Click);
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Location = new System.Drawing.Point(130, 12);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(113, 23);
+            this.btnUpdate.TabIndex = 28;
+            this.btnUpdate.Text = "Update  DB";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(729, 335);
+            this.Controls.Add(this.btnUpdate);
+            this.Controls.Add(this.btnCheck);
+            this.Controls.Add(this.btnClearCheck);
             this.Controls.Add(this.btnShowBCustomer);
             this.Controls.Add(this.btnShowBSaller);
             this.Controls.Add(this.btnLoadData);
@@ -264,6 +301,9 @@
         private System.Windows.Forms.Button btnLoadData;
         private System.Windows.Forms.Button btnShowBSaller;
         private System.Windows.Forms.Button btnShowBCustomer;
+        private System.Windows.Forms.Button btnClearCheck;
+        private System.Windows.Forms.Button btnCheck;
+        private System.Windows.Forms.Button btnUpdate;
     }
 }
 
